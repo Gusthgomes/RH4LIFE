@@ -3,20 +3,33 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useToast } from "@/components/ui/use-toast";
+import Image from "next/image";
+import { signIn, useSession } from "next-auth/react";
 
 const Register = () => {
   const [error, setError] = useState("");
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const session = useSession();
 
   const router = useRouter();
 
   const { toast } = useToast();
 
-  const submitHandler = async (e: any) => {
+  useEffect(() => {
+    if (session?.status === "authenticated") {
+      router.replace("/about");
+    }
+  }, [session, router]);
+
+  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const email = e.target[0].value;
-    const password = e.target[1].value;
+
+    const userData = { email, password };
 
     const isValidEmail = (email: string) => {
       const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
@@ -43,16 +56,35 @@ const Register = () => {
         title: "Ops! Parece que algo deu errado",
         description: "Senha inválida. Por favor, tente novamente.",
       });
+      setEmail("");
+      setPassword("");
       return;
     }
 
     if (!password || password.length < 6) {
       toast({
         variant: "destructive",
-        title: "Sua senha deve possuir np mínimo 6 caracteres!",
+        title: "Sua senha deve possuir no mínimo 6 caracteres!",
         description: "Por favor, tente novamente.",
       });
+      setEmail("");
+      setPassword("");
       return;
+    }
+
+    const result = await signIn("credentials", {
+      redirect: false,
+      email,
+      password,
+    });
+
+    if (result?.error) {
+      toast({
+        title: "Você precisa estar logado para poder acessar essa página",
+        description: "Por favor, efetue o login!.",
+      });
+    } else {
+      router.replace("/");
     }
 
     try {
@@ -62,13 +94,16 @@ const Register = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email,
-          password,
+          email: userData.email,
+          password: userData.password,
         }),
       });
 
       if (res.status === 400) {
         setError("Usuário já existente no sistema");
+        setPassword("");
+        setEmail("");
+
         return;
       }
       if (res.status === 201) {
@@ -76,18 +111,32 @@ const Register = () => {
           title: "Usuário cadastrado com sucesso!",
           description: "Você foi redirecionado para a página de login.",
         });
+        setEmail("");
+        setPassword("");
         router.push("/login");
       }
     } catch (error) {
       setError("Erro ao cadastrar usuário");
+      setEmail("");
+      setPassword("");
       console.log(error);
     }
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-between p-24">
+    <div className="flex min-h-screen w-full flex-col items-center justify-between p-12">
       <div className="bg-blue-400 p-8 rounded shadow-md w-96">
-        <h1 className="text-4xl text-center font-semibold mb-8 hover:text-5xl duration-300">
+        <div className="relative w-full max-w-lg">
+          <Image
+            src="/assets/images/table.png"
+            alt="Logo"
+            layout="responsive"
+            width={60}
+            height={300}
+            className="rounded shadow-lg mb-2"
+          />
+        </div>
+        <h1 className="text-4xl text-center text-white font-semibold mb-8 hover:text-5xl duration-1000">
           Cadastre-se
         </h1>
         <form onSubmit={submitHandler}>
@@ -96,12 +145,16 @@ const Register = () => {
             placeholder="Digite o seu e-mail aqui.."
             className="rounded outline-none w-full p-2 mb-4 text-center"
             required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <Input
             type="password"
             placeholder="Digite a sua senha aqui.."
             className="rounded outline-none w-full p-2 mb-4 text-center"
             required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
 
           <Button
@@ -115,13 +168,13 @@ const Register = () => {
           </p>
         </form>
         <Link
-          className="block text-sm text-center text-blue-500 hover:underline-none mt-4"
+          className="block text-sm text-center text-white hover:underline-none mt-4"
           href="/login"
         >
           Já possui uma conta ? Login
         </Link>
 
-        <h2 className="block text-md text-center text-blue-500 mt-2">- OU -</h2>
+        <h2 className="block text-md text-center text-white mt-2">- OU -</h2>
       </div>
     </div>
   );
