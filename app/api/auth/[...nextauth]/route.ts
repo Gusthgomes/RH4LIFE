@@ -22,13 +22,13 @@ export const authOptions = {
         const user = await User.findOne({ email }).select("+password");
 
         if (!user) {
-          throw new Error("Invalid email or password!");
+          throw new Error("E-mail ou senha inválidos!");
         }
 
         const isPasswordMatched = await bcrypt.compare(password, user.password);
 
         if (!isPasswordMatched) {
-          throw new Error("Invalid email or password!");
+          throw new Error("E-mail ou senha inválidos!");
         }
 
         return user;
