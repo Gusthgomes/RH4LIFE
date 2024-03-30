@@ -1,8 +1,20 @@
-import { Button } from "@/components/ui/button";
+"use client";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 export default function Home() {
+  const session = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (session.status === "authenticated") {
+      router.replace("/dashboard");
+    }
+  }, [session, router]);
+
   return (
     <div className="relative flex flex-col justify-center items-center w-full overflow-hidden mt-2">
       {/* Semicírculo inferior esquerdo */}
