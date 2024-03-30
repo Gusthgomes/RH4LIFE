@@ -1,17 +1,16 @@
 "use client";
-import React, { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import React from "react";
 import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 const Vagas = () => {
-  const router = useRouter();
   const session = useSession();
 
-  useEffect(() => {
-    if (session.status === "unauthenticated") {
-      router.push("/login");
-    }
-  }, [session, router]);
+  if (!session.data) {
+    redirect("/login");
+  }
+
+  
   return <div> Vagas</div>;
 };
 

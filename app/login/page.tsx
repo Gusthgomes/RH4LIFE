@@ -2,11 +2,12 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 const Login = () => {
   const [error, setError] = useState("");
@@ -21,15 +22,9 @@ const Login = () => {
 
   const { toast } = useToast();
 
-  useEffect(() => {
-    if (session.status === "authenticated") {
-      toast({
-        title: "Olá!",
-        description: "Login efetuado com sucesso!.",
-      });
-      router.replace("/dashboard");
-    }
-  }, [session, router]);
+  if (session.data?.user) {
+    redirect("/dashboard");
+  }
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
