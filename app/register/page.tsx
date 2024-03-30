@@ -2,11 +2,11 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import Image from "next/image";
-import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 const Register = () => {
   const [error, setError] = useState("");
@@ -21,8 +21,8 @@ const Register = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    if (session?.status === "authenticated") {
-      router.replace("/about");
+    if (session.status === "authenticated") {
+      router.replace("/dashboard");
     }
   }, [session, router]);
 
@@ -70,21 +70,6 @@ const Register = () => {
       setEmail("");
       setPassword("");
       return;
-    }
-
-    const result = await signIn("credentials", {
-      redirect: false,
-      email,
-      password,
-    });
-
-    if (result?.error) {
-      toast({
-        title: "Você precisa estar logado para poder acessar essa página",
-        description: "Por favor, efetue o login!.",
-      });
-    } else {
-      router.replace("/");
     }
 
     try {
@@ -173,8 +158,6 @@ const Register = () => {
         >
           Já possui uma conta ? Login
         </Link>
-
-        <h2 className="block text-md text-center text-white mt-2">- OU -</h2>
       </div>
     </div>
   );
