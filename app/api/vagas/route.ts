@@ -1,32 +1,42 @@
-import { NextApiRequest, NextApiResponse } from 'next';
 import { connectToDatabase } from '@/utils/db';
 import Vagas from '@/models/Vagas';
+import { NextRequest, NextResponse } from 'next/server';
 
-// Handler para a rota /api/vaga
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  // Conectar ao banco de dados MongoDB
+interface VagaData {
+  name: string;
+  description: string;
+  location: string;
+  category: string;
+  benefits?: string;
+}
+
+export const POST = async (req: NextRequest) => {
+  const data: VagaData = await req.json();
+
+    const { name, description, location, category, benefits }: VagaData = data;
   await connectToDatabase();
 
-  if (req.method === 'POST') {
-    // Criar uma nova vaga
-    try {
-      const novaVaga = new Vagas(req.body);
-      await novaVaga.save();
-      res.status(201).json({ success: true, data: novaVaga });
-    } catch (error) {
-      res.status(400).json({ success: false });
-    }
-  } else if (req.method === 'GET') {
-    // Obter todas as vagas
-    try {
-      const vagas = await Vagas.find({});
-      res.status(200).json({ success: true, data: vagas });
-    } catch (error) {
-      res.status(400).json({ success: false });
-    }
-  } else {
-    res.status(405).json({ success: false, message: 'Método não permitido' });
-  }
+  const newVaga = new Vagas({
+    name,
+    description,
+    location,
+    category,
+    benefits,
+  });
+
+  try {
+    await newVaga.save();
+    return new NextResponse("Vaga criada com sucesso", { status: 201 });
+  } catch (error: string | any) {
+    return new NextResponse("Erro ao criar a vaga", { status: 500 });
+  };
 };
 
-export default handler;
+export const GET = async () => {
+  await connectToDatabase();
+
+  const vaga = await Vagas.find();
+
+  return NextResponse.json({ vaga });
+
+};
