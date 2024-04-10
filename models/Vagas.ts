@@ -11,6 +11,9 @@ const VagasSchema = new Schema({
         type: Date,
         default: Date.now,
     },
+    candidates: { type: Number, required: true, default: 0 },
+    screening: { type: Number, required: true, default: 0 },
+
 });
 
 const Vagas = models.Vagas || model("Vagas", VagasSchema);
