@@ -144,7 +144,7 @@ const Vagas = () => {
             <option className=" placeholder-gray-400" value="">Selecione uma categoria</option>
             <option className=" placeholder-gray-400" value="Florestal">Florestal</option>
             <option className=" placeholder-gray-400" value="Químicos">Químicos</option>
-            <option className=" placeholder-gray-400" value="Civíl Cultura">Civíl Cultura</option>
+            <option className=" placeholder-gray-400" value="SilviCultura">SilviCultura</option>
             <option className=" placeholder-gray-400" value="Contrução Pesada">Contrução Pesada</option>
             <option className=" placeholder-gray-400" value="Stefani">Stefani</option>
           </select>
