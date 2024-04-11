@@ -1,23 +1,19 @@
-"use client";
-import React, { useEffect } from "react";
-import { useSession } from "next-auth/react";
-import { useToast } from "@/components/ui/use-toast";
-import { redirect } from "next/navigation";
+import React from 'react';
+import { Metadata } from 'next';
+import Board from '@/components/Dashboard/dashboard';
 
-const Dashboard = () => {
-  const session = useSession();
-  const { toast } = useToast();
 
-  useEffect(() => {
-    if (session.status === "unauthenticated") {
-      toast({
-        variant: "destructive",
-        title: "Faça Login para acessar a página!",
-      });
-      redirect("/login");
-    }
-  }, [session]);
-  return <div>Dashboard</div>;
+export const metadata: Metadata = {
+  title: 'Dashboard',
+  description: 'Dashboard page',
 };
 
-export default Dashboard;
+const Dashboard = () => {
+  return (
+    <>
+    <Board/>
+    </>
+  )
+}
+
+export default Dashboard
