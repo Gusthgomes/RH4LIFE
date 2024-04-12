@@ -46,6 +46,10 @@ const Login = () => {
       });
       console.log(result);
     } else {
+      toast({
+        title: "Login efetuado com sucesso!",
+        description: "Seja bem-vindo(a)!",
+      });
       router.replace("/dashboard");
     }
   };
