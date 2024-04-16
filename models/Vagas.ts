@@ -5,7 +5,7 @@ const VagasSchema = new Schema({
     description: { type: String, required: true },
     location: { type: String, required: true },
     category: { type: String, required: [true, "Por favor selecione uma categoria"] },
-    status: { type: String, default: "Ativo" },
+    status: { type: String, default: "Aberta" },
     benefits: { type: String, required: false},
     createdAt: {
         type: Date,
