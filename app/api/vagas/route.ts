@@ -34,9 +34,13 @@ export const POST = async (req: NextRequest) => {
 
 export const GET = async () => {
   await connectToDatabase();
-
   const vaga = await Vagas.find();
-
   return NextResponse.json({ vaga });
+};
 
+export const DELETE = async (req: NextRequest) => {
+  const id = req.nextUrl.searchParams.get("id");
+  await connectToDatabase();
+  await Vagas.findByIdAndDelete(id);
+  return new NextResponse("Vaga deletada com sucesso!", { status : 200 });
 };
