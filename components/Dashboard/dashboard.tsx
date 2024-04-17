@@ -2,6 +2,10 @@
 import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { redirect } from 'next/navigation';
+import { CiEdit } from "react-icons/ci";
+import { Button } from '../ui/button';
+import { RemoveBtn } from '../RemoveBtn/RemoveBtn';
+import Link from 'next/link';
 
 interface Vaga {
   _id: string;
@@ -48,49 +52,40 @@ const Board = () => {
   useEffect(() => {
     fetchVagas();
   }, []);
-
+ 
   return (
     <>
       <div className='w-full flex flex-col justify-center items-center rounded-lg'>
         <h2 className="text-3xl font-mono font-semibold flex text-start mr-auto">Vagas em aberto:</h2>
         {vagas.map((vaga) => (
-          <div key={vaga._id} className=' w-full max-w-[1280px] rounded border-2 border-blue-500 my-4 h-40 p-3'>
-            <div className='flex flex-row justify-center items-center mb-6'>
-              <div className='w-1/3 flex flex-col justify-center items-center'>
-                <h3 className='text-xl font-mono font-semibold'>Nome: {vaga.name}</h3>
+          <div key={vaga._id} className='w-full flex flex-col justify-center items-center my-3 font-mono'>
+          <div className="w-full max-w-[1280px] gap-10 border-2 border-white shadow-xl bg-blue-400 rounded p-2">
+              <div className="flex flex-col items-center justify-center my-2">
+                  <p className="text-lg">Nome: {vaga.name}</p>
+                  <p className="text-lg">Descrição: {vaga.description}</p>
+                  <p className="text-lg">Categoria: {vaga.category}</p>
+                  <p className="text-lg">Benefícios: {vaga?.benefits}</p>
+                  <p className="text-lg">Local: {vaga.location}</p>
               </div>
-              <div className='w-1/3 flex flex-col justify-center items-center'>
-                <h3 className='text-xl font-mono font-semibold'>Descrição: {vaga.description}</h3>
+              <div className="flex flex-row items-center justify-around mb-2">
+                  <p className="text-lg">Status: Ativo</p>
+                  <p className="text-lg">Data: {new Date(vaga.createdAt).toLocaleDateString()}</p>
               </div>
-              <div className='w-1/2 flex flex-col justify-center items-center'>
-                <h3 className='text-xl font-mono font-semibold'>Localização: {vaga.location}</h3>
+              <div className="flex flex-row items-center justify-around mb-2">
+                  <p className="text-lg">Candidatos: {vaga.candidates}</p>
+                  <p className="text-lg">Em Triagem: {vaga.screening}</p>
               </div>
-            </div>
-
-            <div className='flex flex-row justify-center items-center mb-6'>
-              <div className='w-1/3 flex flex-col justify-center items-center'>
-                <h3 className='text-xl font-mono font-semibold'>Categoria: {vaga.category}</h3>
+              <div className="flex flex-row items-center justify-around mb-2">
+              <Link
+                  href={`/upload/${vaga._id}`}
+                  className="my-2 bg-blue-600 rounded hover:bg-blue-700 w-12 h-10 flex items-center justify-center"
+                >
+                  <CiEdit size={17} color="#FFF" className="my-2" />
+                </Link>
+                <RemoveBtn id={vaga._id}/>
               </div>
-              <div className='w-1/3 flex flex-col justify-center items-center'>
-                <h3 className='text-xl font-mono font-semibold'>Benefícios: {vaga?.benefits}</h3>
-              </div>
-              <div className='w-1/2 flex flex-col justify-center items-center'>
-                <h3 className='text-xl font-mono font-semibold'>Data: {new Date(vaga.createdAt).toLocaleDateString()}</h3>
-              </div>
-            </div>
-
-            <div className='flex flex-row justify-center items-center mb-6'>
-              <div className='w-1/3 flex flex-col justify-center items-center'>
-                <h3 className='text-xl font-mono font-semibold'>Candidatos: {vaga.candidates}</h3>
-              </div>
-              <div className='w-1/3 flex flex-col justify-center items-center'>
-                <h3 className='text-xl font-mono font-semibold'>Em Triagem: {vaga.screening}</h3>
-              </div>
-              <div className='w-1/2 flex flex-col justify-center items-center'>
-                <h3 className='text-xl font-mono font-semibold'>Status: {vaga.status}</h3>
-              </div>
-            </div>
           </div>
+      </div>
         ))}
       </div>
     </>
