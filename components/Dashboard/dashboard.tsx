@@ -29,9 +29,7 @@ const Board = () => {
 
   const fetchVagas = async () => {
     try {
-      const res = await fetch("/api/vagas", {
-        cache: "no-store",
-      });
+      const res = await fetch("/api/vagas");
 
       if (!res.ok) {
         throw new Error("Erro ao buscar vagas");
