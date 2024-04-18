@@ -1,18 +1,56 @@
-import React from 'react'
+"use client";
+import EditVaga from '@/components/EditVaga/EditVaga';
+import React, { useEffect, useState } from 'react';
 
-const UpdateVaga = () => {
-  return (
-    <div className='w-full max-w-[1280px] gap-2 flex flex-col rounded bg-blue-400 border-2 border-white shadow-md'>
-      <h2 className='text-4xl font-mono text-center my-3'>Atualizando status da vaga</h2>
-      <form className='w-[600px] max-w-[1280px] flex flex-col rounded items-center justify-center gap-3 m-auto py-2'>
-          <label className='text-2xl font-mono items-start my-1'>Número de candidatos:</label>
-          <input placeholder='3' type='number' required className='w-[300px] text-center rounded text-black border-2 border-black pl-2'/>
-
-          <label className='text-2xl font-mono items-start my-1'>Em triagem:</label>
-          <input placeholder='2' type='number' required className='w-[300px] text-center rounded text-black border-2 border-black pl-2'/>
-      </form>
-    </div>
-  )
+interface Props {
+  params: {
+    id: string;
+  };
 }
 
-export default UpdateVaga
+const getVagasById = async (id: string) => {
+  try {
+    const response = await fetch(`/api/vagas/${id}`, {
+      cache: "no-store",
+    });
+
+    if (!response.ok) {
+      throw new Error("Erro ao buscar as vagas!")
+    };
+
+    return response.json();
+
+  } catch (error) {
+    console.log(error);
+    throw error; // Rethrow para tratar em outros lugares, se necessário
+  }
+};
+
+const UpdateVaga = ({ params }: Props) => {
+  const { id } = params;
+  const [vagaData, setVagaData] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchVagaData = async () => {
+      try {
+        const data = await getVagasById(id);
+        console.log(data)
+        setVagaData(data.vaga);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchVagaData();
+  }, [id]);
+
+  if (!vagaData) {
+    return <div>Carregando...</div>;
+  }
+
+  const { candidates, screening, status } = vagaData;
+
+  return <EditVaga id={id} candidates={candidates} screening={screening} status={status} />;
+};
+
+export default UpdateVaga;
