@@ -2,12 +2,14 @@
 import { Button } from "../ui/button";
 import { HiOutlineTrash } from "react-icons/hi2";
 import { useRouter } from "next/navigation";
+import { Vaga } from "../Dashboard/dashboard";
 
 interface Props {
     id: string;
+    setVagas: React.Dispatch<React.SetStateAction<Vaga[]>>;
 };
 
-export const RemoveBtn = ({ id }: Props) => {
+export const RemoveBtn = ({ id, setVagas }: Props) => {
 
     const router = useRouter();
 
@@ -21,6 +23,7 @@ export const RemoveBtn = ({ id }: Props) => {
                 });
 
                 if (res.ok) {
+                    setVagas(prevVagas => prevVagas.filter(vaga => vaga._id !== id));
                     router.refresh();
                     alert("Vaga deletada com sucesso!");
                 } else {
@@ -34,7 +37,7 @@ export const RemoveBtn = ({ id }: Props) => {
     }
     return(
         <Button
-        onClick={removeVaga}
+            onClick={removeVaga}
             className="my-2 bg-red-600 rounded hover:bg-red-700"
             variant="destructive"
         >
