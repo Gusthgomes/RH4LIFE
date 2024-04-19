@@ -7,7 +7,7 @@ import { Button } from '../ui/button';
 import { RemoveBtn } from '../RemoveBtn/RemoveBtn';
 import Link from 'next/link';
 
-interface Vaga {
+export interface Vaga {
   _id: string;
   name: string;
   description: string;
@@ -50,6 +50,17 @@ const Board = () => {
   useEffect(() => {
     fetchVagas();
   }, []);
+
+  if(vagas.length === 0) {
+    return (
+      <div className='flex flex-col items-center justify-center gap-10 my-3'>
+          <h2 className='text-3xl font-mono'>Nenhuma vaga está em aberto!</h2>
+          <p className='text-sm mb-3'>Aguardando novas vagas...</p>
+          <div className="spinner-border w-12 h-12 border-t-2 border-b-2 border-blue-500 rounded-full animate-spin"></div>
+          <Link className='w-40 bg-blue-500 rounded p-2 font-mono text-2xl text-white text-center drop-shadow-lg' href="/vagas">Abrir vaga</Link>
+      </div>
+    )
+  }
  
   return (
     <>
@@ -66,7 +77,7 @@ const Board = () => {
                   <p className="text-lg">Local: {vaga.location}</p>
               </div>
               <div className="flex flex-row items-center justify-around mb-2">
-                  <p className="text-lg">Status: Ativo</p>
+                  <p className="text-lg">Status: {vaga?.status}</p>
                   <p className="text-lg">Data: {new Date(vaga.createdAt).toLocaleDateString()}</p>
               </div>
               <div className="flex flex-row items-center justify-around mb-2">
@@ -80,7 +91,7 @@ const Board = () => {
                 >
                   <CiEdit size={17} color="#FFF" className="my-2" />
                 </Link>
-                <RemoveBtn id={vaga._id}/>
+                <RemoveBtn id={vaga._id} setVagas={setVagas}/>
               </div>
           </div>
       </div>
