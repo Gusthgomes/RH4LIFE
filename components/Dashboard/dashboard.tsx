@@ -64,8 +64,8 @@ const Board = () => {
  
   return (
     <>
-      <div className='w-full flex flex-col justify-center items-center rounded-lg'>
-        <h2 className="text-3xl font-mono font-semibold flex text-start mr-auto">Vagas em aberto:</h2>
+      <div className='w-[80% mx-auto flex flex-col justify-center items-center rounded-lg md:mx-0 md:w-auto ml-2 mr-2'>
+        <h2 className="text-base md:text-3xl font-mono md:font-semibold flex text-start mr-auto ml-2">Vagas em aberto:</h2>
         {vagas.map((vaga) => (
           <div key={vaga._id} className='w-full flex flex-col justify-center items-center my-3 font-mono'>
           <div className="w-full max-w-[1280px] gap-10 border-2 border-white shadow-xl bg-blue-400 rounded p-2">
