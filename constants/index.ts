@@ -1,14 +1,22 @@
 export const headerLink = [
     {
-        label: 'Home',
-        route: "/",
-    },
-    {
         label: 'Dashboard',
         route: "/dashboard",
     },
     {
-        label: 'Vagas',
+        label: 'Abrir vaga',
         route: "/vagas",
     },
+    {
+        label: 'Vagas encerradas',
+        route: "/cloused",
+    },
+    {
+        label: 'Estatísticas',
+        route: "/vagaChart",
+    },
+    {
+        label: 'Sobre',
+        route: '/about',
+    }
 ]
