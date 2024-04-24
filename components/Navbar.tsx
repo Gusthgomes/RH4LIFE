@@ -38,7 +38,7 @@ const Navbar = () => {
               <li>Login</li>
             </Link>
             <Link className="text-black hover:text-white" href="/register">
-              <li>Cadastre-se</li>
+              <li>Cadastro</li>
             </Link>
             <Link className="text-black hover:text-white" href="/about">
               <li>Sobre</li>
