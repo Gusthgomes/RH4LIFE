@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { redirect } from 'next/navigation';
 import { CiEdit } from "react-icons/ci";
-import { Button } from '../ui/button';
 import { RemoveBtn } from '../RemoveBtn/RemoveBtn';
 import Link from 'next/link';
 
@@ -67,6 +66,7 @@ const Board = () => {
       <div className='w-[80% mx-auto flex flex-col justify-center items-center rounded-lg md:mx-0 md:w-auto ml-2 mr-2'>
         <h2 className="text-base md:text-3xl font-mono md:font-semibold flex text-start mr-auto ml-2">Vagas em aberto:</h2>
         {vagas.map((vaga) => (
+          vaga.status !== "Fechada" && (
           <div key={vaga._id} className='w-full flex flex-col justify-center items-center my-3 font-mono'>
           <div className="w-full max-w-[1280px] gap-10 border-2 border-white shadow-xl bg-blue-400 rounded p-2">
               <div className="flex flex-col items-center justify-center my-2">
@@ -95,6 +95,7 @@ const Board = () => {
               </div>
           </div>
       </div>
+          )
         ))}
       </div>
     </>
