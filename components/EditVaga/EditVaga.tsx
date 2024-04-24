@@ -18,7 +18,7 @@ const EditVaga = ({ id, candidates, screening, status}: Props) => {
         const [newScreening, setNewScreening] = useState<number>(screening);
         const [newStatus, setNewStatus] = useState<string>(status);
 
-        const validStatus = ['Aberta', 'Fechada', 'Ativo'];
+        const validStatus = ['Aberta', 'Fechada'];
 
         const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
             e.preventDefault();
@@ -55,10 +55,10 @@ const EditVaga = ({ id, candidates, screening, status}: Props) => {
           <h2 className='text-4xl font-mono text-center my-3'>Atualizando status da vaga</h2>
           <form onSubmit={handleSubmit} className='w-[600px] max-w-[1280px] flex flex-col rounded items-center justify-center gap-3 m-auto py-2'>
               <label className='text-2xl font-mono items-start my-1'>Número de candidatos:</label>
-              <input value={newCandidates} onChange={ (e) => setNewCandidates(Number(e.target.value))} placeholder='3' type='number' required className='w-[300px] text-center rounded text-black border-2 border-black pl-2'/>
+              <input value={newCandidates} onChange={ (e) => setNewCandidates(Number(e.target.value))} placeholder='3' type='number' required disabled={newStatus === "Fechada" ? true : false} className='w-[300px] text-center rounded text-black border-2 border-black pl-2'/>
     
               <label className='text-2xl font-mono items-start my-1'>Em triagem:</label>
-              <input value={newScreening} onChange={ (e) => setNewScreening(Number(e.target.value))} placeholder='2' type='number' required className='w-[300px] text-center rounded text-black border-2 border-black pl-2'/>
+              <input value={newScreening} onChange={ (e) => setNewScreening(Number(e.target.value))} placeholder='2' type='number' required disabled={newStatus === "Fechada" ? true : false} className='w-[300px] text-center rounded text-black border-2 border-black pl-2'/>
     
               <select
                 className="w-[300px] text-center px-3 py-2 placeholder-gray-400 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
