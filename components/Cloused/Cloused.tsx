@@ -48,9 +48,11 @@ const Cloused = () => {
 
   useEffect(() => {
     fetchVagas();
+
+    return () => { }
   }, []);
 
-  if(vagas.length === 0) {
+  if(vagas.every(vaga => vaga.status === "Aberta")) {
     return (
       <div className='flex flex-col items-center justify-center gap-10 my-3'>
           <h2 className='text-3xl font-mono'>Nenhuma vaga está encerrada atualmente!</h2>
