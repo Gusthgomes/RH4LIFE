@@ -1,7 +1,15 @@
-import React from "react";
+import About from "@/components/About/About";
+import { Metadata } from "next";
 
-const About = () => {
-  return <div>About</div>;
+export const metadata: Metadata = {
+  title: "Sobre",
+  description: "Venha nos conhecer..."
 };
 
-export default About;
+const Sobre = () => {
+  return (
+    <About/>
+  )
+};
+
+export default Sobre;
