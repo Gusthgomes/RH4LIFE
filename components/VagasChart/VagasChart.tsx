@@ -11,6 +11,8 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { Vaga } from '@/app/vagaChart/page';
+import { useSession } from 'next-auth/react';
+import { redirect } from 'next/navigation';
 
 ChartJS.register(
   CategoryScale,
@@ -26,6 +28,10 @@ interface Props {
 }
 
 const VagasChart: React.FC<Props> = ({ vagas }) => {
+
+  const session = useSession();
+
+  if(!session?.data?.user?.email) redirect("/login");
 
   const vagasAbertas = vagas.filter((vaga) => vaga.status === "Aberta");
 
