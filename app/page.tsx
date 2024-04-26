@@ -16,11 +16,11 @@ export default function Home() {
   }, [session, router]);
 
   return (
-    <div className="relative flex flex-col justify-center items-center w-full overflow-hidden mt-2">
+    <div className="relative flex flex-col justify-center items-center w-full overflow-hidden mt-6">
       {/* Semicírculo inferior esquerdo */}
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-200 rounded-full transform rotate-45"></div>
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-300 rounded-full transform rotate-45 drop-shadow-md"></div>
       {/* Semicírculo superior direito */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-blue-200 rounded-full transform -rotate-45"></div>
+      <div className="absolute top-0 right-0 w-96 h-96 bg-blue-300 rounded-full transform -rotate-45 vagaChart"></div>
 
       <div className="relative z-10 flex flex-col justify-center items-center w-full">
         <h1 className="w-full text-center text-5xl font-bold mb-10 text-blue-500">
@@ -37,7 +37,7 @@ export default function Home() {
             layout="responsive"
             width={600}
             height={600}
-            className="rounded shadow-lg"
+            className="rounded shadow-lg drop-shadow-2xl"
           />
           <div className="absolute inset-x-0 top-0 h-6 bg-gradient-to-t from-blue-100 to-transparent pointer-events-none"></div>
           <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-blue-400 to-transparent pointer-events-none"></div>
