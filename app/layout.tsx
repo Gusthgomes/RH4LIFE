@@ -9,7 +9,7 @@ import AuthProvider from "@/utils/SessionProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "RH Analytics",
+  title: "RH4LIFE",
   description: "Controle de vagas e contratações",
 };
 
